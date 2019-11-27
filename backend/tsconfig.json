@@ -9,7 +9,24 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    // #9 
+    "skipDefaultLibCheck": true,
   },
   "exclude": ["node_modules", "dist"]
 }
+// #10 Download postgres https://www.postgresql.org/download/
+//  if you already have then skip for me im using ubuntu 
+// my command will look like: $sudo touch /etc/apt/sources.list.d/pgdg.list
+// then $cd $cd /etc/apt/sources.list.d/ $nano pgdg.list
+// enter the next name: mine: deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+// then wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+// sudo apt-get update
+// I did this really all through npm i pg -g
+//  npm i postgresql (you can add a flag with a number: ex -11 for the version #)
+
+// #11 $createdb votingapp - this creates the pg database
+// for me i have to log into my creator role database and then CREATE DATABASE votingapp;
+// sometimes you have to make a role and etc \q to exit
+
+// #12 $ npm install --save @nestjs/typeorm typeorm mysql
