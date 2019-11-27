@@ -9,9 +9,9 @@ export class UserSubscriber implements EntitySubscriberInterface<User>{
     return User;
   }
 
-  beforeInsert(event: InsertEvent<User>) {
+  async beforeInsert(event: InsertEvent<User>) {
     console.log(`BEFORE POST INSERTED `, event.entity);
-    event.entity.password = bcrypt
+    event.entity.password = await bcrypt.hash(event.entity.password, 12)
   }
 
 }
