@@ -29,4 +29,4 @@
 // for me i have to log into my creator role database and then CREATE DATABASE votingapp;
 // sometimes you have to make a role and etc \q to exit
 
-// #12 $ npm install --save @nestjs/typeorm typeorm mysql
+// #12 $ npm install --save @nestjs/typeorm typeorm pg
