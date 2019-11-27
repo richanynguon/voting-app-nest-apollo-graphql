@@ -1,5 +1,10 @@
 Mono Repo
 
+Why typescript vs js => Typescript is just like JS but stricter, helps prevent bugs from typos
+
+Why nest vs express => Uses typescript and gives a boiler to what you would make in express anyways
+
+
 Server:
 Nestjs
 Session => Cookies using Express Session with Redis
