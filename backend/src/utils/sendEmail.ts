@@ -1,6 +1,6 @@
 import * as nodemailer from 'nodemailer';
 
-export const main = async () => {
+export const sendEmail = async (email: string, link: string) => {
 
   let transporter = nodemailer.createTransport({
     host: 'smtp.sendgrid.net',
@@ -14,13 +14,13 @@ export const main = async () => {
 
   let info = await transporter.sendMail({
     from: '"Fred Food" <email@example.com>',
-    to: "bar@example.com, baz@ezamble.com",
+    to: email,
     subject: "Hello!",
     text: "Helloooo",
-    html: "<h1>HeyHey</h1>"
+    html: `<h1>Welcome</h1><br/><a href="${link}">Confirm your email here</a>`
   });
 
   console.log("Message sent: %s", info.messageId);
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
 
 }
