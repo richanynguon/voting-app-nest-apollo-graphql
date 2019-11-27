@@ -8,6 +8,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: 'creator',
   password: 'creator',
   database: 'votingapp',
-  entities: [],
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   synchronize: true,
+  
 }

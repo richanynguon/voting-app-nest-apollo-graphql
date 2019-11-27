@@ -1,7 +1,12 @@
-import { Resolver, Query } from '@nestjs/graphql'; // #7 import Query 
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'; // #7 import Query 
+import { SignUpInput } from './input/signupInput';
+import { UserService } from './user.service';
+import { User } from './user.entity';
+import { ErrorResponse } from './shared/errorResponse';
 
-@Resolver('User')
+@Resolver(User)
 export class UserResolver {
+  constructor(private readonly userService: UserService) { }
   // #8 Create a @Query that will output a string
   // Create async function hello that can take @Args
   // For now not neccessary and return hello
@@ -20,5 +25,13 @@ export class UserResolver {
   async hello() {
     return 'Hello from @Query hello';
   }
-
+  // #21 create mutation passing in arguements that would be recievd in fnx
+  @Mutation(() => [ErrorResponse], { nullable: true })
+  async signup(
+    // #23 import SignupInputs you created 
+    // $nest g service user --no-spec
+    @Args('SignUpInput') SignUpInput: SignUpInput
+  ): Promise<ErrorResponse[] | null> {// #25
+    return this.userService.signup(SignUpInput);
+  }
 }
