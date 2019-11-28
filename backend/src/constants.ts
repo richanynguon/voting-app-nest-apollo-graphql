@@ -1,0 +1,1 @@
+export const CONFRIM_EMAIL_PREFIX= 'confirmEmail';
