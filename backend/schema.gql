@@ -21,8 +21,23 @@ type Mutation {
   vote(pollOptionId: Float!): Boolean!
 }
 
+type Poll {
+  id: Float!
+  name: String!
+  userId: String!
+  pollOption: [PollOption!]!
+}
+
+type PollOption {
+  id: Float!
+  text: String!
+  votes: Float!
+  pollId: Float!
+}
+
 type Query {
   hello: String!
+  poll(id: Float!): Poll!
 }
 
 input SignUpInput {

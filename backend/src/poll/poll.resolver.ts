@@ -1,10 +1,11 @@
-import { Resolver, Mutation, Context, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Context, Args, Query } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { GetUserId } from './getUserId.decorator';
 import { CreatePollArgs } from './args/createPollArgs.args';
 import { PollService } from './poll.service';
 import { MyContext } from '../types/myContext';
+import { Poll } from './poll.entity';
 
 @Resolver('Poll')
 export class PollResolver {
@@ -25,5 +26,10 @@ export class PollResolver {
     @Args('pollOptionId') pollOptionId: number,
   ): Promise<Boolean> {
     return this.pollService.vote(context, pollOptionId)
+  }
+
+  @Query(() => Poll)
+  async poll(@Args('id') id: number): Promise<Poll> {
+    return this.pollService.poll(id)
   }
 }
