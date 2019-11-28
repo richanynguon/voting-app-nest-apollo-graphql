@@ -26,7 +26,7 @@ export class UserService {
     }
     const user = await this.userRepo.save({ ...signUpInput })
     // todo remove the comment below
-    // await sendEmail(SignUpInput.email, await confirmEmailLink(user.id))
+    // await sendEmail(signUpInput.email, await confirmEmailLink(user.id))
     return null;
   }
 
@@ -53,16 +53,17 @@ export class UserService {
     if (!checkPassword) {
       return errorMessage("email", "invalid email or password");
     }
-    req.session.userID = user.id;
+    req.session.userId = user.id;
+
     return null;
   }
 
-  async logout(context: MyContext) {
-    await context.req.session.destroy(err => {
+  async logout(cxt: MyContext) {
+    await cxt.req.session.destroy(err => {
       console.log(err)
       return false;
     })
-    await context.res.clearCookie("votingapp");
+    await cxt.res.clearCookie("votingapp");
     return true;
   }
 }

@@ -12,5 +12,6 @@ import { PollService } from './poll.service';
     ]),
   ],
   providers: [PollResolver, PollService],
+
 })
 export class PollModule { }

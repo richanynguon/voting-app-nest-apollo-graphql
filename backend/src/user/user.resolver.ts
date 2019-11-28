@@ -32,7 +32,7 @@ export class UserResolver {
   async signup(
     // #23 import SignupInputs you created 
     // $nest g service user --no-spec
-    @Args('SignUpInput') signUpInput: SignUpInput
+    @Args('signUpInput') signUpInput: SignUpInput
   ): Promise<ErrorResponse[] | null> {// #25
     return this.userService.signup(signUpInput);
   }
@@ -40,15 +40,15 @@ export class UserResolver {
   @Mutation(() => [ErrorResponse], { nullable: true })
   async login(
     @Args('loginInput') loginInput: LoginInput,
-    @Context() context: MyContext
+    @Context() ctx: MyContext
   ): Promise<ErrorResponse[] | null> {
-    return this.userService.login(loginInput, context.req)
+    return this.userService.login(loginInput, ctx.req)
   }
 
   @Mutation(() => Boolean)
   async logout(
-    @Context() context: MyContext,
+    @Context() ctx: MyContext,
   ) { 
-    return this.userService.logout(context)
+    return this.userService.logout(ctx)
   }
 }

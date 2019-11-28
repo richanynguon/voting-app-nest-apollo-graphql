@@ -7,3 +7,4 @@ export class CreatePollArgs {
   @Field(() => [String])
   options: string[];
 }
+

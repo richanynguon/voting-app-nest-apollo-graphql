@@ -11,11 +11,11 @@ export class Poll {
   id: number;
 
   @Field()
-  @Column()
+  @Column('text')
   name: string;
 
   @Field()
-  @Column('text')
+  @Column()
   userId: string;
 
   @ManyToOne(() => User, user => user.poll)

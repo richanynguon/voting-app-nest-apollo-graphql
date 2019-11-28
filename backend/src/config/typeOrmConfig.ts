@@ -15,3 +15,4 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   subscribers:[__dirname + '/../subscribers/*.subscriber{.ts,.js}'],
   
 }
+
