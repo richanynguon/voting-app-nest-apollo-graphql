@@ -18,6 +18,7 @@ type Mutation {
   login(loginInput: LoginInput!): [ErrorResponse!]
   logout: Boolean!
   createPoll(name: String!, options: [String!]!): Boolean!
+  vote(pollOptionId: Float!): Boolean!
 }
 
 type Query {
