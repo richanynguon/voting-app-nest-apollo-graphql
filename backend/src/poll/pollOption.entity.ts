@@ -1,17 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
 import { Poll } from './poll.entity';
 
 
 @Entity('poll')
-export class PollOption{
+export class PollOption {
 
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @Column()
-  name: string;
+  @Column('text')
+  text: string;
 
-  @OneToOne(() => Poll, poll => poll.options)
-  poll: Promise<Poll[]>;
+  @Column('integer')
+  votes: number;
+
+  @Column('integer')
+  pollId: number;
+
+  @ManyToOne(() => Poll, poll => poll.pollOption)
+  poll: Promise<Poll>;
 
 }

@@ -11,7 +11,7 @@ import { CONFRIM_EMAIL_PREFIX } from '../constants';
 import { LoginInput } from './input/user.loginInput';
 import * as bcrypt from 'bcryptjs';
 import { errorMessage } from './shared/errorMessage';
-import { MyContext } from 'src/types/myContext';
+import { MyContext } from '../types/myContext';
 // #24
 @Injectable()
 export class UserService {
@@ -20,7 +20,7 @@ export class UserService {
     private readonly userRepo: UserRepository
   ) { }
   async signup(signUpInput: SignUpInput): Promise<ErrorResponse[] | null> {
-    const userExist = await this.userRepo.findOne({ where: { email: SignUpInput.email } });
+    const userExist = await this.userRepo.findOne({ where: { email: signUpInput.email } });
     if (userExist) {
       return errorMessage("email", "account already created");
     }
