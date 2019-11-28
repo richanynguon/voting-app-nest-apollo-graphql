@@ -19,12 +19,12 @@ export class UserService {
     @InjectRepository(UserRepository)
     private readonly userRepo: UserRepository
   ) { }
-  async signup(SignUpInput: SignUpInput): Promise<ErrorResponse[] | null> {
+  async signup(signUpInput: SignUpInput): Promise<ErrorResponse[] | null> {
     const userExist = await this.userRepo.findOne({ where: { email: SignUpInput.email } });
     if (userExist) {
       return errorMessage("email", "account already created");
     }
-    const user = await this.userRepo.save({ ...SignUpInput })
+    const user = await this.userRepo.save({ ...signUpInput })
     // todo remove the comment below
     // await sendEmail(SignUpInput.email, await confirmEmailLink(user.id))
     return null;
