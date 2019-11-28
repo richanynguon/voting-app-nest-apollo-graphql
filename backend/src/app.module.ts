@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 // #3 import GrapQLModule
-import { GraphQLModule } from "@nestjs/graphql"; 
+import { GraphQLModule } from "@nestjs/graphql";
 import { UserModule } from './user/user.module';
 // #13 import TypeOrmModule from
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -15,14 +15,15 @@ import { typeOrmConfig } from './config/typeOrmConfig';
     // #4 do this code vv
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
+      context: ({ req }) => ({ req }),
     }),
     // #5 $nest g module user
     // this command will import UserModule and create user folder
-    UserModule,  
+    UserModule,
     // #6 $nest g r user --no-spec
     // Will create the resolver boiler for users
     // Insert resolver into modules as provider
-    
+
     // #14 
     // TypeOrmModule.forRoot({}), 
     // and create a new file in src using config/typeOrmConfig.ts
@@ -36,4 +37,4 @@ import { typeOrmConfig } from './config/typeOrmConfig';
   // Think models in express
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

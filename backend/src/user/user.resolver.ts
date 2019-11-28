@@ -1,9 +1,10 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'; // #7 import Query 
+import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql'; // #7 import Query 
 import { SignUpInput } from './input/user.signupInput';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { ErrorResponse } from './shared/errorResponse';
 import { LoginInput } from './input/user.loginInput';
+import { MyContext } from '../types/myContext';
 
 @Resolver(User)
 export class UserResolver {
@@ -36,10 +37,11 @@ export class UserResolver {
     return this.userService.signup(signUpInput);
   }
 
-  @Mutation()
+  @Mutation(() => [ErrorResponse], { nullable: true })
   async login(
-    @Args('loginInput') loginInput: LoginInput
-  ) {
-    return this.userService.login(loginInput)
+    @Args('loginInput') loginInput: LoginInput,
+    @Context() context: MyContext
+  ): Promise<ErrorResponse[] | null> {
+    return this.userService.login(loginInput, context.req)
   }
 }

@@ -1,6 +1,6 @@
-export const errorMessage = [
+export const errorMessage = (path: string, message: string) => [
   {
-    path: 'email',
-    message: 'invalid email or password',
+    path,
+    message,
   },
 ]

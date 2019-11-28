@@ -6,10 +6,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { sendEmail } from '../utils/sendEmail';
 import { confirmEmailLink } from '../utils/confirmEmailLink';
 import { redis } from '../redis';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { CONFRIM_EMAIL_PREFIX } from '../constants';
 import { LoginInput } from './input/user.loginInput';
-import { buildSchemaFromTypeDefinitions } from 'graphql-tools';
 import * as bcrypt from 'bcryptjs';
 import { errorMessage } from './shared/errorMessage';
 // #24
@@ -22,12 +21,7 @@ export class UserService {
   async signup(SignUpInput: SignUpInput): Promise<ErrorResponse[] | null> {
     const userExist = await this.userRepo.findOne({ where: { email: SignUpInput.email } });
     if (userExist) {
-      return [
-        {
-          path: "email",
-          message: "An account already exists with that email"
-        }
-      ]
+      return errorMessage("email", "account already created");
     }
     const user = await this.userRepo.save({ ...SignUpInput })
     await sendEmail(SignUpInput.email, await confirmEmailLink(user.id))
@@ -43,16 +37,21 @@ export class UserService {
     res.send('ok');
   }
 
-  async login(loginInput: LoginInput) {
+  async login(loginInput: LoginInput, req: Request): Promise<ErrorResponse[] | null> {
     const user = await this.userRepo.findOne({
       where: { email: loginInput.email }
     })
     if (!user) {
-      return errorMessage;
+      return errorMessage("email", "invalid email or password");
     }
+    if (user.confirmed === false) {
+      return errorMessage("email", "confirm email");
+     }
     const checkPassword = await bcrypt.compare(loginInput.password, user.password)
     if (!checkPassword) {
-      return errorMessage;
+      return errorMessage("email", "invalid email or password");
     }
+    req.session.userID = user.id;
+    return null;
   }
 }
