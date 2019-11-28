@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 // #3 import GrapQLModule
 import { GraphQLModule } from "@nestjs/graphql";
 import { UserModule } from './user/user.module';
@@ -8,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from "@nestjs/typeorm";
 // #16 import the typeormconfig from config
 import { typeOrmConfig } from './config/typeOrmConfig';
+import { PollModule } from './poll/poll.module';
 
 // #2 $ npm i type-graphql
 @Module({
@@ -28,13 +27,14 @@ import { typeOrmConfig } from './config/typeOrmConfig';
     // TypeOrmModule.forRoot({}), 
     // and create a new file in src using config/typeOrmConfig.ts
     // will make file too
-    TypeOrmModule.forRoot(typeOrmConfig) // #17 insert typeOrmConfig then create user.entity.ts
+    TypeOrmModule.forRoot(typeOrmConfig),
+    PollModule // #17 insert typeOrmConfig then create user.entity.ts
   ],
   // Importing app controllers that are the methods and mutations
   // like controllers in express
-  controllers: [AppController],
+
   // Importing app service - contains method and mutation helpers
   // Think models in express
-  providers: [AppService],
+ 
 })
 export class AppModule { }

@@ -17,6 +17,7 @@ type Mutation {
   signup(SignUpInput: SignUpInput!): [ErrorResponse!]
   login(loginInput: LoginInput!): [ErrorResponse!]
   logout: Boolean!
+  createPoll: Boolean!
 }
 
 type Query {

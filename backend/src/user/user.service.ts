@@ -25,7 +25,8 @@ export class UserService {
       return errorMessage("email", "account already created");
     }
     const user = await this.userRepo.save({ ...SignUpInput })
-    await sendEmail(SignUpInput.email, await confirmEmailLink(user.id))
+    // todo remove the comment below
+    // await sendEmail(SignUpInput.email, await confirmEmailLink(user.id))
     return null;
   }
 
