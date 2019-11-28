@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { SignUpInput } from './input/signupInput';
+import { SignUpInput } from './input/user.signupInput';
 import { UserRepository } from './user.repository';
 import { ErrorResponse } from './shared/errorResponse';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,6 +8,10 @@ import { confirmEmailLink } from '../utils/confirmEmailLink';
 import { redis } from '../redis';
 import { Response } from 'express';
 import { CONFRIM_EMAIL_PREFIX } from '../constants';
+import { LoginInput } from './input/user.loginInput';
+import { buildSchemaFromTypeDefinitions } from 'graphql-tools';
+import * as bcrypt from 'bcryptjs';
+import { errorMessage } from './shared/errorMessage';
 // #24
 @Injectable()
 export class UserService {
@@ -37,5 +41,18 @@ export class UserService {
     }
     this.userRepo.update({ id: userID }, { confirmed: true })
     res.send('ok');
+  }
+
+  async login(loginInput: LoginInput) {
+    const user = await this.userRepo.findOne({
+      where: { email: loginInput.email }
+    })
+    if (!user) {
+      return errorMessage;
+    }
+    const checkPassword = await bcrypt.compare(loginInput.password, user.password)
+    if (!checkPassword) {
+      return errorMessage;
+    }
   }
 }
