@@ -11,6 +11,7 @@ import { CONFRIM_EMAIL_PREFIX } from '../constants';
 import { LoginInput } from './input/user.loginInput';
 import * as bcrypt from 'bcryptjs';
 import { errorMessage } from './shared/errorMessage';
+import { MyContext } from 'src/types/myContext';
 // #24
 @Injectable()
 export class UserService {
@@ -46,12 +47,21 @@ export class UserService {
     }
     if (user.confirmed === false) {
       return errorMessage("email", "confirm email");
-     }
+    }
     const checkPassword = await bcrypt.compare(loginInput.password, user.password)
     if (!checkPassword) {
       return errorMessage("email", "invalid email or password");
     }
     req.session.userID = user.id;
     return null;
+  }
+
+  async logout(context: MyContext) {
+    await context.req.session.destroy(err => {
+      console.log(err)
+      return false;
+    })
+    await context.res.clearCookie("votingapp");
+    return true;
   }
 }

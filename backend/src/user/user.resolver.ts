@@ -44,4 +44,11 @@ export class UserResolver {
   ): Promise<ErrorResponse[] | null> {
     return this.userService.login(loginInput, context.req)
   }
+
+  @Mutation(() => Boolean)
+  async logout(
+    @Context() context: MyContext,
+  ) { 
+    return this.userService.logout(context)
+  }
 }

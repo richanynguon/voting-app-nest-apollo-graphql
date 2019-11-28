@@ -15,7 +15,7 @@ import { typeOrmConfig } from './config/typeOrmConfig';
     // #4 do this code vv
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
-      context: ({ req }) => ({ req }),
+      context: ({ req, res }) => ({ req, res }),
     }),
     // #5 $nest g module user
     // this command will import UserModule and create user folder
