@@ -6,6 +6,7 @@ import { redis } from '../redis';
 import { POLL_OPTION_ID_PREFIX } from '../constants';
 import { Poll } from './poll.entity';
 
+
 @Injectable()
 export class PollService {
   constructor(
@@ -69,5 +70,28 @@ export class PollService {
       where: { id },
       relations: ['pollOption'],
     })
+  }
+
+  async allPolls(take: number, skip: number): Promise<Poll[]> {
+    return this.pollRepo
+      .createQueryBuilder("poll")
+      .innerJoinAndSelect("poll.pollOption", "pollOption")
+      .orderBy("poll.name", "ASC")
+      .take(take)
+      .skip(skip)
+      .getMany();
+  }
+
+  async deletePoll(context: MyContext, id: number): Promise<Boolean> {
+    try {
+      await this.pollRepo.delete({ id })
+      const ip =
+        context.req.header('x-forwarded-for') || context.req.connection.remoteAddress;
+      await redis.srem(`${POLL_OPTION_ID_PREFIX}${id}`, ip);
+
+    } catch (err) {
+      return false;
+    }
+    return true;
   }
 }
