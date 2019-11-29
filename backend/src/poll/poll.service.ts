@@ -14,7 +14,7 @@ export class PollService {
 
     @InjectRepository(PollOptionRepository)
     private readonly pollOptionRepo: PollOptionRepository,
-  ) {}
+  ) { }
   async createPoll(
     userId: string,
     name: string,
@@ -91,5 +91,9 @@ export class PollService {
       return false;
     }
     return true;
+  }
+
+  async myPoll(userId: string): Promise<Poll[]> {
+    return await this.pollRepo.find({ where: { userId } })
   }
 }

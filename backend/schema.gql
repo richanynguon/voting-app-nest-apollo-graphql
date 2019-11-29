@@ -40,6 +40,7 @@ type Query {
   hello: String!
   poll(id: Float!): Poll!
   allPolls(take: Float!, skip: Float!): [Poll!]!
+  myPoll: [Poll!]!
 }
 
 input SignUpInput {

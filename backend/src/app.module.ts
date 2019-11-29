@@ -7,6 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 // #16 import the typeormconfig from config
 import { typeOrmConfig } from './config/typeOrmConfig';
 import { PollModule } from './poll/poll.module';
+import { pollOptionLoader } from './loaders/pollOptionLoader';
 
 // #2 $ npm i type-graphql
 @Module({
@@ -14,7 +15,11 @@ import { PollModule } from './poll/poll.module';
     // #4 do this code vv
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
-      context: ({ req, res }) => ({ req, res }),
+      context: ({ req, res }) => ({
+        req,
+        res,
+        pollOptionLoader: pollOptionLoader(),
+      }),
     }),
     // #5 $nest g module user
     // this command will import UserModule and create user folder
@@ -35,6 +40,6 @@ import { PollModule } from './poll/poll.module';
 
   // Importing app service - contains method and mutation helpers
   // Think models in express
- 
+
 })
 export class AppModule { }
